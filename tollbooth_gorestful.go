@@ -8,7 +8,7 @@ import (
 
 func LimitHandler(handler restful.RouteFunction, lmt *limiter.Limiter) restful.RouteFunction {
 	return func(request *restful.Request, response *restful.Response) {
-		httpError := tollbooth.LimitByRequest(lmt, request.Request)
+		httpError := tollbooth.LimitByRequest(lmt, response.Response, request.Request)
 		if httpError != nil {
 			response.AddHeader("Content-Type", lmt.GetMessageContentType())
 			response.WriteErrorString(httpError.StatusCode, httpError.Message)
